@@ -47,7 +47,7 @@ ADD_LIBRARY(py2cpp ${_py2cpp_sources})
 TARGET_LINK_LIBRARIES(py2cpp ${_link_LIBRARIES})
 TARGET_INCLUDE_DIRECTORIES(py2cpp PUBLIC
                           $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
-                          $<INSTALL_INTERFACE:${INSTALL_CMAKE_DIR}/include>)
+                          $<INSTALL_INTERFACE:include>)
 
 INSTALL(TARGETS py2cpp EXPORT FindPy2cpp LIBRARY DESTINATION lib)
 INSTALL(FILES ${_py2cpp_headers} DESTINATION include/py2cpp)

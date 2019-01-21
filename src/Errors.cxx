@@ -105,6 +105,7 @@ void ConversionCheck::addError(const std::string& expectedType, PyObject * obj)
       pyRepr = PyUnicode_AsUTF8(pyResult);
     else
       pyRepr = "unknown representation";
+    Py_XDECREF(pyResult);
     if(pyRepr.size() > 80)
     {
       pyRepr = pyRepr.substr(0, 76);
