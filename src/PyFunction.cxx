@@ -61,4 +61,39 @@ bool PyFunction::load(PyObject* obj, const std::string& function)
   return result;
 }
 
+void PyFunction::loadExp(const std::string& module, const std::string& function)
+{
+  if(!load(module, function))
+  {
+    std::string errorMessage = "Failed to load function '";
+    errorMessage += function;
+    errorMessage += "' from module '";
+    errorMessage += module;
+    errorMessage += "'\n";
+    throw ExecutionException(errorMessage+getLastPyError());
+  }
+}
+
+void PyFunction::loadExp(const PyPtr& obj, const std::string& function)
+{
+  if(!load(obj, function))
+  {
+    std::string errorMessage = "Failed to load function '";
+    errorMessage += function;
+    errorMessage += "' from a python object.\n";
+    throw ExecutionException(errorMessage+getLastPyError());
+  }
+}
+
+void PyFunction::loadExp(PyObject* obj, const std::string& function)
+{
+  if(!load(obj, function))
+  {
+    std::string errorMessage = "Failed to load function '";
+    errorMessage += function;
+    errorMessage += "' from a python object.\n";
+    throw ExecutionException(errorMessage+getLastPyError());
+  }
+}
+
 }

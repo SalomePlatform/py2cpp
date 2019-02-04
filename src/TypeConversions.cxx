@@ -35,6 +35,36 @@ PyObject * toPy(int val)
   return PyLong_FromLong(val);
 }
 
+ConversionCheck fromPy(PyObject * po, unsigned int& result)
+{
+  ConversionCheck check;
+  if(po && PyLong_Check(po))
+    result = PyLong_AsUnsignedLong(po);
+  else
+    check.addError("int", po);
+  return check;
+}
+
+PyObject * toPy(unsigned int val)
+{
+  return PyLong_FromUnsignedLong(val);
+}
+
+ConversionCheck fromPy(PyObject * po, bool& result)
+{
+  ConversionCheck check;
+  if(po && PyBool_Check(po))
+    result = (Py_True == po);
+  else
+    check.addError("bool", po);
+  return check;
+}
+
+PyObject * toPy(bool val)
+{
+  return PyBool_FromLong(val);
+}
+
 ConversionCheck fromPy(PyObject * po, double& result)
 {
   ConversionCheck check;
@@ -68,6 +98,11 @@ ConversionCheck fromPy(PyObject * po, std::string& result)
 PyObject * toPy(const std::string& val)
 {
   return PyUnicode_FromString(val.c_str());
+}
+
+PyObject * toPy(const char* val)
+{
+  return PyUnicode_FromString(val);
 }
 
 ConversionCheck fromPy( PyObject *po, PyObject *& result)

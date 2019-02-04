@@ -171,4 +171,9 @@ ExecutionException::ExecutionException(const std::string& message)
 {
 }
 
+AttributeException::AttributeException(const std::string& message)
+: Exception(message)
+{
+}
+
 }

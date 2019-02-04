@@ -17,10 +17,7 @@
 // See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 //
 #include "ConversionTest.hxx"
-
-#include "TypeConversions.hxx"
-#include "Result.hxx"
-#include "PyFunction.hxx"
+#include "py2cpp.hxx"
 
 void ConversionTest::setUp()
 {
@@ -38,6 +35,8 @@ void ConversionTest::basicTest()
 {
   CPPUNIT_ASSERT(42==py2cpp::fromPyPtr<int>(py2cpp::toPyPtr(42)));
   CPPUNIT_ASSERT(4.2==py2cpp::fromPyPtr<double>(py2cpp::toPyPtr(4.2)));
+  CPPUNIT_ASSERT(py2cpp::fromPyPtr<bool>(py2cpp::toPyPtr(true)));
+  CPPUNIT_ASSERT(!py2cpp::fromPyPtr<bool>(py2cpp::toPyPtr(false)));
   std::string toto;
   toto = py2cpp::fromPyPtr<std::string>(py2cpp::toPyPtr(std::string("toto")));
   CPPUNIT_ASSERT(toto == "toto");
@@ -165,6 +164,17 @@ void ConversionTest::pyErrorTest()
   std::string str;
   py2cpp::PyFunction fn;
   fn.load("TestPy2cpp", "f3");
+  try
+  {
+    fn(7, 0, "problem");
+    CPPUNIT_FAIL("Expected exception 'py2cpp::ExecutionException'!");
+  }
+  catch (const py2cpp::ExecutionException& err)
+  {
+    str = err.what();
+    CPPUNIT_ASSERT(str.find("ZeroDivisionError:") != std::string::npos) ;
+  }
+
   try
   {
     py2cpp::pyResult(d, str) = fn(7, 0, "problem");

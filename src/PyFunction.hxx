@@ -21,6 +21,8 @@
 #include <Python.h>
 #include <tuple>
 #include "TypeConversions.hxx"
+#include "Errors.hxx"
+
 namespace py2cpp
 {
 class PyFunction : public PyPtr
@@ -32,6 +34,12 @@ public:
   bool load(const PyPtr& obj, const std::string& function);
   bool load(PyObject* obj, const std::string& function);
 
+  // The following versions of the functions throw ExecutionException in case of
+  // failure.
+  void loadExp(const std::string& module, const std::string& function);
+  void loadExp(const PyPtr& obj, const std::string& function);
+  void loadExp(PyObject* obj, const std::string& function);
+
   /*!
    * The evaluation returns nullptr if the python function throws an exception.
    * See PyObject_CallObject documentation.
@@ -40,15 +48,20 @@ public:
   template <class ...Ts>
   PyPtr operator()(const Ts&... args)
   {
-    PyObject * result = nullptr;
+    PyPtr result;
     PyObject * myFunc = get();
     if(myFunc && PyCallable_Check(myFunc))
     {
       std::tuple<const Ts&...> tupleArgs(args...);
       PyPtr pyArgs(toPy(tupleArgs));
-      result = PyObject_CallObject(myFunc, pyArgs.get());
+      result.reset(PyObject_CallObject(myFunc, pyArgs.get()));
     }
-    return PyPtr(result);
+    if(!result)
+    {
+      std::string errorMessage = "Failed to execute python function.\n";
+      throw ExecutionException(errorMessage+getLastPyError());
+    }
+    return result;
   }
 };
 }

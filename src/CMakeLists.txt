@@ -41,6 +41,7 @@ SET(_py2cpp_headers
   Errors.hxx
   PyPtr.hxx
   Result.hxx
+  py2cpp.hxx
 )
 
 ADD_LIBRARY(py2cpp ${_py2cpp_sources})

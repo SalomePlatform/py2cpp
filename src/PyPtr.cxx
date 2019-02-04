@@ -17,6 +17,8 @@
 // See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 //
 #include "PyPtr.hxx"
+#include "Errors.hxx"
+
 namespace py2cpp
 {
 
@@ -24,10 +26,45 @@ PyPtr PyPtr::getAttr(const std::string& attribute)const
 {
   PyObject* result = nullptr;
   PyObject* thisObj = get();
-  if(thisObj)
-    result = PyObject_GetAttrString(thisObj, attribute.c_str());
-  
+  if(nullptr == thisObj)
+  {
+    std::string message = "Cannot get attribute ";
+    message += attribute;
+    message += " on a NULL object.\n";
+    throw AttributeException(message);
+  }
+
+  if(!PyObject_HasAttrString(thisObj, attribute.c_str()))
+  {
+    std::string message = "Attribute ";
+    message += attribute;
+    message += " does not exist.\n";
+    throw AttributeException(message);
+  }
+
+  result = PyObject_GetAttrString(thisObj, attribute.c_str());
   return PyPtr(result);
+}
+
+void PyPtr::setAttr(const std::string& attribute, const PyPtr& value)const
+{
+  PyObject* thisObj = get();
+  if(nullptr == thisObj)
+  {
+    std::string message = "Cannot set attribute ";
+    message += attribute;
+    message += " on a NULL object.\n";
+    throw AttributeException(message);
+  }
+
+  if(0 > PyObject_SetAttrString(thisObj, attribute.c_str(), value.get()))
+  {
+    std::string message = "Failed to set attribute ";
+    message += attribute;
+    message += ".\n";
+    message += getLastPyError();
+    throw AttributeException(message);
+  }
 }
 
 std::string PyPtr::repr()const

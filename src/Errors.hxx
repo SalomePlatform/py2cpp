@@ -73,6 +73,12 @@ public:
   ExecutionException(const std::string& message);
 };
 
+class AttributeException:public Exception
+{
+public:
+  AttributeException(const std::string& message);
+};
+
 }
 
 #endif //PY2CPP_ERRORS_HXX

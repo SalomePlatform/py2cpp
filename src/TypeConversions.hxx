@@ -35,8 +35,11 @@ namespace py2cpp
  * The conversion is always possible and it does not throw exceptions.
  */
 PyObject * toPy(int);
+PyObject * toPy(unsigned int);
+PyObject * toPy(bool);
 PyObject * toPy(double);
 PyObject * toPy(const std::string&);
+PyObject * toPy(const char*);
 PyObject * toPy(PyObject *);
 PyObject * toPy(const PyPtr&);
 template <class T>
@@ -54,6 +57,8 @@ PyObject * toPy(const std::tuple<Ts...>& vars );
  * error message. No exception is thrown.
  */
 ConversionCheck fromPy( PyObject *, int&);
+ConversionCheck fromPy( PyObject *, unsigned int&);
+ConversionCheck fromPy( PyObject *, bool&);
 ConversionCheck fromPy( PyObject *, double&);
 ConversionCheck fromPy( PyObject *, std::string&);
 ConversionCheck fromPy( PyObject *, PyObject *&);

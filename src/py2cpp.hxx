@@ -1,3 +1,4 @@
+
 // Copyright (C) 2019  EDF R&D
 //
 // This library is free software; you can redistribute it and/or
@@ -16,40 +17,10 @@
 //
 // See http://www.salome-platform.org/ or email : webmaster.salome@opencascade.com
 //
-#ifndef PY2CPP_PYPTR_HXX
-#define PY2CPP_PYPTR_HXX
-#include <Python.h>
-#include <memory>
-#include <string>
+#ifndef PY2CPP_PY2CPP_HXX
+#define PY2CPP_PY2CPP_HXX
 
-namespace py2cpp
-{
-class PyPtrDeleter
-{
-public:
-  void operator()(PyObject * po){Py_DECREF(po);}
-};
+#include "PyFunction.hxx"
+#include "Result.hxx"
 
-typedef std::unique_ptr<PyObject, PyPtrDeleter> _PyPtr;
-
-class PyPtr: public _PyPtr
-{
-public:
-  using _PyPtr::_PyPtr;
-  PyPtr getAttr(const std::string& attribute)const;
-  void setAttr(const std::string& attribute, const PyPtr& value)const;
-  std::string repr()const;
-};
-
-class AutoGIL
-{
-public:
-  AutoGIL():_gstate(PyGILState_Ensure()) { }
-  ~AutoGIL() { PyGILState_Release(_gstate); }
-private:
-  PyGILState_STATE _gstate;
-};
-
-}
-
-#endif // PY2CPP_PYPTR_HXX
+#endif //PY2CPP_PY2CPP_HXX
