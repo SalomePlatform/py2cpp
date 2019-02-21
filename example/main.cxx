@@ -25,6 +25,7 @@
 int main()
 {
   Py_Initialize();
+  {
   std::string s;
   double d;
   py2cpp::PyFunction fn;
@@ -47,6 +48,7 @@ int main()
     {
       std::cerr << err.what();
     }
+  }
   }
   Py_Finalize();
   return 0;

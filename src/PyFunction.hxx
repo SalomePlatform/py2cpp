@@ -46,7 +46,7 @@ public:
    * You can use getLastPyError in order to get the last python error.
    */
   template <class ...Ts>
-  PyPtr operator()(const Ts&... args)
+  PyPtr safeEval(const Ts&... args)
   {
     PyPtr result;
     PyObject * myFunc = get();
@@ -56,6 +56,17 @@ public:
       PyPtr pyArgs(toPy(tupleArgs));
       result.reset(PyObject_CallObject(myFunc, pyArgs.get()));
     }
+    return result;
+  }
+
+  /*!
+   * The evaluation throws ExecutionException if the python function throws an
+   * exception.
+   */
+  template <class ...Ts>
+  PyPtr operator()(const Ts&... args)
+  {
+    PyPtr result = safeEval(args...);
     if(!result)
     {
       std::string errorMessage = "Failed to execute python function.\n";
