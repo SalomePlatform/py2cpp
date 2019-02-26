@@ -31,7 +31,9 @@ std::string getLastPyError()
     PyErr_Fetch(&ptype, &pvalue, &ptraceback);
     PyErr_NormalizeException(&ptype, &pvalue, &ptraceback);
     pystr = PyObject_Str(pvalue);
-    result = std::string(PyUnicode_AsUTF8(pystr));
+    const char* charstr = PyUnicode_AsUTF8(pystr);
+    if(charstr != nullptr)
+      result = std::string(charstr);
     result += "\n";
     Py_DECREF(pystr);
     
@@ -54,7 +56,9 @@ std::string getLastPyError()
             for(int i=0; i<n; i++)
             {
               pystr = PyList_GetItem(pyList,i);
-              result += std::string(PyUnicode_AsUTF8(pystr));
+              const char* charstr = PyUnicode_AsUTF8(pystr);
+              if(charstr != nullptr)
+                result += charstr;
             }
             Py_DECREF(pyList);
           }
@@ -102,7 +106,11 @@ void ConversionCheck::addError(const std::string& expectedType, PyObject * obj)
     std::string pyRepr;
     PyObject* pyResult = PyObject_Repr(obj);
     if(pyResult && PyUnicode_Check(pyResult))
-      pyRepr = PyUnicode_AsUTF8(pyResult);
+    {
+      const char* charstr = PyUnicode_AsUTF8(pyResult);
+      if(charstr != nullptr)
+        pyRepr = charstr;
+    }
     else
       pyRepr = "unknown representation";
     Py_XDECREF(pyResult);

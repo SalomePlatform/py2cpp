@@ -89,7 +89,13 @@ ConversionCheck fromPy(PyObject * po, std::string& result)
 {
   ConversionCheck check;
   if(po && PyUnicode_Check(po))
-    result = PyUnicode_AsUTF8(po);
+  {
+    const char* charstr = PyUnicode_AsUTF8(po);
+    if(charstr != nullptr)
+      result = charstr;
+    else
+      result = "";
+  }
   else
     check.addError("std::string", po);
   return check;

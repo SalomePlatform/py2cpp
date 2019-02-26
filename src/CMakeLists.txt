@@ -50,8 +50,8 @@ TARGET_INCLUDE_DIRECTORIES(py2cpp PUBLIC
                           $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
                           $<INSTALL_INTERFACE:include>)
 
-INSTALL(TARGETS py2cpp EXPORT FindPy2cpp LIBRARY DESTINATION lib)
+INSTALL(TARGETS py2cpp EXPORT Py2cppCfg LIBRARY DESTINATION lib)
 INSTALL(FILES ${_py2cpp_headers} DESTINATION include/py2cpp)
-INSTALL(EXPORT FindPy2cpp DESTINATION lib/cmake/py2cpp)
+INSTALL(EXPORT Py2cppCfg DESTINATION lib/cmake/py2cpp FILE Py2cppConfig.cmake)
 
 ADD_SUBDIRECTORY(Test)

@@ -75,7 +75,11 @@ std::string PyPtr::repr()const
   {
     PyObject* pyResult = PyObject_Repr(thisObj);
     if(pyResult && PyUnicode_Check(pyResult))
-      result = PyUnicode_AsUTF8(pyResult);
+    {
+      const char* charstr = PyUnicode_AsUTF8(pyResult);
+      if(charstr != nullptr)
+        result = charstr;
+    }
     Py_XDECREF(pyResult);
   }
   return result;
