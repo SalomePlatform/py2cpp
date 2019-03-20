@@ -1,8 +1,8 @@
 The py2cpp library was created in order to make easier the call of a python 
-function within c++ sources. It provides convertion functions to and from a
+function within c++ sources. It provides conversion functions to and from a
 python object for some basic c++ types (int, double, std:: string and 
 collections for these types: std::vector, std::list, std::map). It is possible 
-to add your own convertion functions for your own types.
+to add your own conversion functions for your own types.
 
 Example of use
 ---------------
