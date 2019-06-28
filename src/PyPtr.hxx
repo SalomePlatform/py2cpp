@@ -35,7 +35,15 @@ typedef std::unique_ptr<PyObject, PyPtrDeleter> _PyPtr;
 class PyPtr: public _PyPtr
 {
 public:
-  using _PyPtr::_PyPtr;
+  PyPtr();
+  PyPtr(std::nullptr_t copy);
+  PyPtr(PyObject* pyObj);
+  PyPtr(const PyPtr& copy);
+  PyPtr(PyPtr&& move);
+  PyPtr& operator=(const PyPtr& copy);
+  PyPtr& operator=(PyPtr&& move);
+  PyPtr& operator=(std::nullptr_t copy);
+
   PyPtr getAttr(const std::string& attribute)const;
   void setAttr(const std::string& attribute, const PyPtr& value)const;
   std::string repr()const;

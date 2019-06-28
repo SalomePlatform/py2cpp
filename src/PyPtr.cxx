@@ -22,6 +22,55 @@
 namespace py2cpp
 {
 
+PyPtr::PyPtr()
+: _PyPtr()
+{
+}
+
+PyPtr::PyPtr(std::nullptr_t copy)
+: _PyPtr(copy)
+{
+}
+
+PyPtr::PyPtr(PyObject* pyObj)
+: _PyPtr(pyObj)
+{
+}
+
+PyPtr::PyPtr(const PyPtr& copy)
+: _PyPtr(copy.get())
+{
+  Py_XINCREF(copy.get());
+}
+
+PyPtr::PyPtr(PyPtr&& move)
+: _PyPtr(std::move(move))
+{
+}
+
+PyPtr& PyPtr::operator=(std::nullptr_t copy)
+{
+  _PyPtr::operator=(copy);
+  return *this;
+}
+
+PyPtr& PyPtr::operator=(const PyPtr& copy)
+{
+  PyObject* pyCopy = copy.get();
+  if(get() != pyCopy)
+  {
+    Py_XINCREF(pyCopy);
+    reset(pyCopy);
+  }
+  return *this;
+}
+
+PyPtr& PyPtr::operator=(PyPtr&& move)
+{
+  _PyPtr::operator=(std::move(move));
+  return *this;
+}
+
 PyPtr PyPtr::getAttr(const std::string& attribute)const
 {
   PyObject* result = nullptr;

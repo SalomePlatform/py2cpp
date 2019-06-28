@@ -58,6 +58,17 @@ void ConversionTest::basicTest()
   CPPUNIT_ASSERT(4.2==d2);
   py2cpp::pyResult(i2) = py2cpp::toPyPtr(42);
   CPPUNIT_ASSERT(42 == i2);
+  py2cpp::PyPtr copy(obj);
+  i2=0; d2=0.;
+  py2cpp::pyResult(i2, d2) = copy;
+  CPPUNIT_ASSERT(4==i2);
+  CPPUNIT_ASSERT(4.2==d2);
+  py2cpp::PyPtr copy2;
+  copy2 = obj;
+  i2=0; d2=0.;
+  py2cpp::pyResult(i2, d2) = copy2;
+  CPPUNIT_ASSERT(4==i2);
+  CPPUNIT_ASSERT(4.2==d2);
 }
 
 void ConversionTest::functionTest()
