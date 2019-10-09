@@ -210,6 +210,16 @@ ConversionCheck fromPy( PyObject *obj, std::vector<T>& result)
     if(!check)
       check.addError("std::vector", obj);
   }
+  else if(PyTuple_Check(obj))
+  {
+    result.clear();
+    std::size_t size = PyTuple_Size(obj);
+    result.resize(size);
+    for(std::size_t i=0; i < size && check; i++)
+      check.addError(fromPy(PyTuple_GetItem(obj, i), result[i]));
+    if(!check)
+      check.addError("std::vector", obj);
+  }
   else
     check.addError("std::vector", obj);
   return check;
@@ -228,6 +238,23 @@ ConversionCheck fromPy( PyObject *obj, std::list<T>& result)
     for(T& it : result)
     {
       check.addError(fromPy(PyList_GetItem(obj, i), it));
+      if(!check)
+      {
+        check.addError("std::list", obj);
+        break;
+      }
+      ++i;
+    }
+  }
+  else if(PyTuple_Check(obj))
+  {
+    result.clear();
+    std::size_t size = PyTuple_Size(obj);
+    result.resize(size); //result will have "size" default constructed elements.
+    std::size_t i = 0;
+    for(T& it : result)
+    {
+      check.addError(fromPy(PyTuple_GetItem(obj, i), it));
       if(!check)
       {
         check.addError("std::list", obj);

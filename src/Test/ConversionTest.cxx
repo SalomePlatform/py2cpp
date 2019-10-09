@@ -115,6 +115,11 @@ void ConversionTest::vectorTest()
   py2cpp::pyResult(result) = fn(v);
 
   CPPUNIT_ASSERT(std::vector<double>({2.1, 3.2, 4.3, 5.4}) == result);
+
+  auto tup = std::make_tuple(4, 4.2);
+  py2cpp::PyPtr pyTup = py2cpp::toPyPtr(tup);
+  py2cpp::fromPyPtr(pyTup, result);
+  CPPUNIT_ASSERT(std::vector<double>({4, 4.2}) == result);
 }
 
 void ConversionTest::listTest()
@@ -129,6 +134,11 @@ void ConversionTest::listTest()
   py2cpp::pyResult(result) = fn(v);
 
   CPPUNIT_ASSERT(std::list<double>({2.1, 3.2, 4.3, 5.4}) == result);
+
+  auto tup = std::make_tuple(4, 4.2);
+  py2cpp::PyPtr pyTup = py2cpp::toPyPtr(tup);
+  py2cpp::fromPyPtr(pyTup, result);
+  CPPUNIT_ASSERT(std::list<double>({4, 4.2}) == result);
 }
 
 void ConversionTest::pyobjTest()
