@@ -18,13 +18,14 @@
 //
 #ifndef PY2CPP_PYPTR_HXX
 #define PY2CPP_PYPTR_HXX
+#include "py2cppExports.hxx"
 #include <Python.h>
 #include <memory>
 #include <string>
 
 namespace py2cpp
 {
-class PyPtrDeleter
+class PY2CPP_EXPORT PyPtrDeleter
 {
 public:
   void operator()(PyObject * po){Py_DECREF(po);}
@@ -32,7 +33,7 @@ public:
 
 typedef std::unique_ptr<PyObject, PyPtrDeleter> _PyPtr;
 
-class PyPtr: public _PyPtr
+class PY2CPP_EXPORT PyPtr: public _PyPtr
 {
 public:
   PyPtr();
@@ -49,7 +50,7 @@ public:
   std::string repr()const;
 };
 
-class AutoGIL
+class PY2CPP_EXPORT AutoGIL
 {
 public:
   AutoGIL():_gstate(PyGILState_Ensure()) { }

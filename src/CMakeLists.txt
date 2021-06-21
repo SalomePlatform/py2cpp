@@ -36,6 +36,7 @@ SET(_py2cpp_sources
 )
 
 SET(_py2cpp_headers
+  py2cppExports.hxx
   TypeConversions.hxx
   PyFunction.hxx
   Errors.hxx

@@ -18,6 +18,8 @@
 //
 #ifndef PY2CPP_FUNCTIONCALLS_HXX
 #define PY2CPP_FUNCTIONCALLS_HXX
+
+#include "py2cppExports.hxx"
 #include <Python.h>
 #include <tuple>
 #include "TypeConversions.hxx"
@@ -25,7 +27,7 @@
 
 namespace py2cpp
 {
-class PyFunction : public PyPtr
+class PY2CPP_EXPORT PyFunction : public PyPtr
 {
 public:
   /*! Load a callable object from a python module.*/

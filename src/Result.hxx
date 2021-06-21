@@ -18,6 +18,7 @@
 //
 #ifndef PY2CPP_RESULT_HXX
 #define PY2CPP_RESULT_HXX
+#include "py2cppExports.hxx"
 #include <Python.h>
 #include <tuple>
 #include "TypeConversions.hxx"
@@ -27,7 +28,7 @@ namespace py2cpp
 {
 
 template<class ...Ts>
-class Result;
+class PY2CPP_EXPORT Result;
 
 /*! class Result is used by pyResult function for syntax sugar purpose.
  * You can write this:
@@ -57,7 +58,7 @@ class Result;
  *     std::cerr << py2cpp::getLastPyError();
  **/
 template<>
-class Result<>
+class PY2CPP_EXPORT Result<>
 {
 public:
   void operator=(PyObject * po)
@@ -69,7 +70,7 @@ public:
 };
 
 template<class T>
-class Result<T>
+class PY2CPP_EXPORT Result<T>
 {
 public:
   Result() = delete;
@@ -91,7 +92,7 @@ private:
 };
 
 template<class ...Ts>
-class Result
+class PY2CPP_EXPORT Result
 {
 public:
   Result() = delete;
@@ -111,7 +112,7 @@ private:
 };
 
 template<class ...Ts>
-Result<Ts...> pyResult(Ts&... args)
+PY2CPP_EXPORT Result<Ts...> pyResult(Ts&... args)
 {
   return Result<Ts...>(args...);
 }

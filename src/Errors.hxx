@@ -19,6 +19,8 @@
 #ifndef PY2CPP_ERRORS_HXX
 #define PY2CPP_ERRORS_HXX
 
+#include "py2cppExports.hxx"
+
 #include <string>
 #include <exception>
 #include <Python.h>
@@ -31,12 +33,12 @@ namespace py2cpp
  * After the call of this function, the python error indicator is cleared.
  * see PyErr_Fetch.
  */
-std::string getLastPyError();
+PY2CPP_EXPORT std::string getLastPyError();
 
 /*!
  * ConversionCheck class gathers the errors within fromPy functions.
  */
-class ConversionCheck
+class PY2CPP_EXPORT ConversionCheck
 {
 public:
   ConversionCheck();
@@ -52,7 +54,7 @@ private:
   std::string _message;
 };
 
-class Exception:public std::exception
+class PY2CPP_EXPORT Exception:public std::exception
 {
 public:
   Exception(const std::string& message);
@@ -61,19 +63,19 @@ private:
   std::string _message;
 };
 
-class ConversionException:public Exception
+class PY2CPP_EXPORT ConversionException:public Exception
 {
 public:
   ConversionException(const std::string& message);
 };
 
-class ExecutionException:public Exception
+class PY2CPP_EXPORT ExecutionException:public Exception
 {
 public:
   ExecutionException(const std::string& message);
 };
 
-class AttributeException:public Exception
+class PY2CPP_EXPORT AttributeException:public Exception
 {
 public:
   AttributeException(const std::string& message);
