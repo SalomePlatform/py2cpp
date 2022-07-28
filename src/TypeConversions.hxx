@@ -110,7 +110,7 @@ addInPyTuple(PyObject * result, const std::tuple<Ts...>& vars )
 }
 
 template<class ...Ts>
-PY2CPP_EXPORT PyObject * toPy(const std::tuple<Ts...>& vars )
+PyObject * toPy(const std::tuple<Ts...>& vars )
 {
   PyObject * result = PyTuple_New(sizeof...(Ts));
   addInPyTuple<0, Ts... >(result, vars);
@@ -119,7 +119,7 @@ PY2CPP_EXPORT PyObject * toPy(const std::tuple<Ts...>& vars )
 
 // std containers
 template <class T>
-PY2CPP_EXPORT PyObject * toPy(const std::vector<T>& values)
+PyObject * toPy(const std::vector<T>& values)
 {
   PyObject * result = PyList_New(values.size());
   for(std::size_t i = 0; i < values.size(); ++i)
@@ -128,7 +128,7 @@ PY2CPP_EXPORT PyObject * toPy(const std::vector<T>& values)
 }
 
 template <class T>
-PY2CPP_EXPORT PyObject * toPy(const std::list<T>& values)
+PyObject * toPy(const std::list<T>& values)
 {
   PyObject * result = PyList_New(values.size());
   std::size_t i = 0;
@@ -141,7 +141,7 @@ PY2CPP_EXPORT PyObject * toPy(const std::list<T>& values)
 }
 
 template <class K, class V>
-PY2CPP_EXPORT PyObject * toPy(const std::map<K, V>& values)
+PyObject * toPy(const std::map<K, V>& values)
 {
   PyObject * result = PyDict_New();
   for(const auto& it: values)
@@ -174,7 +174,7 @@ getFromPyTuple(PyObject * tup, std::tuple<Ts&...>& vars )
 }
 
 template<class ...Ts>
-PY2CPP_EXPORT ConversionCheck fromPy(PyObject * obj, std::tuple<Ts&...>& vars)
+ConversionCheck fromPy(PyObject * obj, std::tuple<Ts&...>& vars)
 {
   ConversionCheck check;
   if(obj)
@@ -198,7 +198,7 @@ PY2CPP_EXPORT ConversionCheck fromPy(PyObject * obj, std::tuple<Ts&...>& vars)
 }
 
 template <class T>
-PY2CPP_EXPORT ConversionCheck fromPy( PyObject *obj, std::vector<T>& result)
+ConversionCheck fromPy( PyObject *obj, std::vector<T>& result)
 {
   ConversionCheck check;
   if(PyList_Check(obj))
@@ -227,7 +227,7 @@ PY2CPP_EXPORT ConversionCheck fromPy( PyObject *obj, std::vector<T>& result)
 }
 
 template <class T>
-PY2CPP_EXPORT ConversionCheck fromPy( PyObject *obj, std::list<T>& result)
+ConversionCheck fromPy( PyObject *obj, std::list<T>& result)
 {
   ConversionCheck check;
   if(PyList_Check(obj))
@@ -270,7 +270,7 @@ PY2CPP_EXPORT ConversionCheck fromPy( PyObject *obj, std::list<T>& result)
 }
 
 template <class K, class V>
-PY2CPP_EXPORT ConversionCheck fromPy( PyObject *obj, std::map<K, V>& result)
+ConversionCheck fromPy( PyObject *obj, std::map<K, V>& result)
 {
   ConversionCheck check;
   if(PyDict_Check(obj))
@@ -299,7 +299,7 @@ PY2CPP_EXPORT ConversionCheck fromPy( PyObject *obj, std::map<K, V>& result)
 
 // PyPtr
 template<class T>
-PY2CPP_EXPORT T fromPyPtr( const PyPtr& py)
+T fromPyPtr( const PyPtr& py)
 {
   T result;
   fromPy(py.get(), result);
@@ -307,19 +307,19 @@ PY2CPP_EXPORT T fromPyPtr( const PyPtr& py)
 }
 
 template<class T>
-PY2CPP_EXPORT ConversionCheck fromPyPtr( const PyPtr& py, T& var)
+ConversionCheck fromPyPtr( const PyPtr& py, T& var)
 {
   return fromPy(py.get(), var);
 }
 
 template<class T>
-PY2CPP_EXPORT PY2CPP_EXPORT PyPtr toPyPtr(const T& v)
+PyPtr toPyPtr(const T& v)
 {
   return PyPtr(toPy(v));
 }
 
 template<class T>
-PY2CPP_EXPORT T fromPy( PyObject *po)
+T fromPy( PyObject *po)
 {
   T result;
   ConversionCheck check;

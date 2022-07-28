@@ -28,7 +28,7 @@ namespace py2cpp
 {
 
 template<class ...Ts>
-class PY2CPP_EXPORT Result;
+class Result;
 
 /*! class Result is used by pyResult function for syntax sugar purpose.
  * You can write this:
@@ -58,7 +58,7 @@ class PY2CPP_EXPORT Result;
  *     std::cerr << py2cpp::getLastPyError();
  **/
 template<>
-class PY2CPP_EXPORT Result<>
+class Result<>
 {
 public:
   void operator=(PyObject * po)
@@ -70,7 +70,7 @@ public:
 };
 
 template<class T>
-class PY2CPP_EXPORT Result<T>
+class Result<T>
 {
 public:
   Result() = delete;
@@ -92,7 +92,7 @@ private:
 };
 
 template<class ...Ts>
-class PY2CPP_EXPORT Result
+class Result
 {
 public:
   Result() = delete;
@@ -112,7 +112,7 @@ private:
 };
 
 template<class ...Ts>
-PY2CPP_EXPORT Result<Ts...> pyResult(Ts&... args)
+Result<Ts...> pyResult(Ts&... args)
 {
   return Result<Ts...>(args...);
 }
