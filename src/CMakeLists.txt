@@ -45,7 +45,13 @@ SET(_py2cpp_headers
   py2cpp.hxx
 )
 
-ADD_LIBRARY(py2cpp ${_py2cpp_sources})
+if(WIN32)
+  add_library(py2cpp_lib STATIC  ${_py2cpp_sources})
+  TARGET_LINK_LIBRARIES(py2cpp_lib ${_link_LIBRARIES})
+  set_target_properties(py2cpp_lib PROPERTIES OUTPUT_NAME py2cpp)
+endif(WIN32)
+
+ADD_LIBRARY(py2cpp  ${_py2cpp_sources})
 TARGET_LINK_LIBRARIES(py2cpp ${_link_LIBRARIES})
 TARGET_INCLUDE_DIRECTORIES(py2cpp PUBLIC
                           $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
@@ -53,6 +59,7 @@ TARGET_INCLUDE_DIRECTORIES(py2cpp PUBLIC
 
 IF(WIN32)
   INSTALL(TARGETS py2cpp EXPORT Py2cppCfg LIBRARY DESTINATION lib ${CMAKE_INSTALL_LIBDIR}  RUNTIME DESTINATION bin ${CMAKE_INSTALL_BINDIR})
+  INSTALL(TARGETS py2cpp_lib DESTINATION lib)
 ELSE(WIN32)
   INSTALL(TARGETS py2cpp EXPORT Py2cppCfg LIBRARY DESTINATION lib)
 ENDIF(WIN32)
